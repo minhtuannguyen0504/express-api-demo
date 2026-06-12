@@ -1,5 +1,4 @@
 const { Category } = require("../models");
-const { validationResult } = require("express-validator");
 
 module.exports = {
   getAll: async (req, res, next) => {
@@ -22,11 +21,6 @@ module.exports = {
     }
   },
   create: async (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ error: errors.errors[0].msg });
-    }
-
     try {
       const newCategory = await Category.create(req.body);
       res.status(201).json(newCategory);

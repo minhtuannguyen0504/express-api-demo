@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const categoryController = require("../controllers/categoryController");
 const { body } = require("express-validator");
+const categoryController = require("../controllers/categoryController");
+const handleValidationErrors = require("../middlewares/validationErrorHandler");
 
 // GET list
 router.get("/", categoryController.getAll);
@@ -13,6 +14,12 @@ router.get("/:id", categoryController.getById);
 router.post(
   "/",
   body("name").notEmpty().withMessage("Bad request").trim(),
+  body("description")
+    .optional()
+    .isLength({ min: 3, max: 255 })
+    .withMessage("Bad request")
+    .trim(),
+  handleValidationErrors,
   categoryController.create,
 );
 
