@@ -12,9 +12,10 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(requestLoggerMiddleware);
-app.use(errorHandlerMiddleware);
 
 app.use("/api", routes);
+
+app.use(errorHandlerMiddleware);
 
 db.sequelize.authenticate()
   .then(() => {
