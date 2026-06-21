@@ -2,9 +2,9 @@ const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
-    // static associate(models) {
-    //   User.hasOne(models.Profile, { foreignKey: "userId", as: "profile" });
-    // }
+    static associate(models) {
+      // User.hasOne(models.Profile, { foreignKey: "userId", as: "profile" });
+    }
   }
   User.init(
     {
@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       role: {
-        type: DataTypes.ENUM(0, 1), // 0 = user && 1 == admin
+        type: DataTypes.TINYINT, // 0 = user && 1 == admin
         allowNull: false,
         defaultValue: 0,
       },

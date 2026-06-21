@@ -48,8 +48,8 @@ module.exports = {
 
   login: async (req, res, next) => {
     try {
-      const { emailOrUsername, password } = await req.body;
-      const user = User.scope("withPassword").findOne({
+      const { emailOrUsername, password } = req.body;
+      const user = await User.scope("withPassword").findOne({
         where: {
           [require("sequelize").Op.or]: [
             { email: emailOrUsername },
@@ -63,6 +63,7 @@ module.exports = {
       }
 
       const isMatch = await bcrypt.compare(password, user.password);
+      console.log("MATCH:", isMatch);
 
       if (!isMatch) {
         return res
@@ -75,7 +76,7 @@ module.exports = {
       };
 
       const secretKey = process.env.JWT_SECRET;
-      const expiredIn = process.env.JWT_EXPIRED_IN || "1h";
+      const expiresIn = process.env.JWT_EXPIRED_IN || "1h";
       const token = jwt.sign(payload, secretKey, { expiresIn });
 
       res.json({
