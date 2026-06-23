@@ -63,7 +63,6 @@ module.exports = {
       }
 
       const isMatch = await bcrypt.compare(password, user.password);
-      console.log("MATCH:", isMatch);
 
       if (!isMatch) {
         return res
