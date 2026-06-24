@@ -3,8 +3,8 @@ const { User } = require("../models");
 
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeaders.split(" ")[1];
-
+  const token = authHeader && authHeader.split(" ")[1];
+  console.log("req.headers", req.headers);
   if (token == null) {
     return res.status(401).json({ message: "Unauthorized" });
   }
@@ -32,7 +32,7 @@ const authenticateToken = (req, res, next) => {
 
       if (!user) {
         return res
-          .status(403)
+          .status(401)
           .json({ message: "Unauthorized. User is not exist" });
       }
 
